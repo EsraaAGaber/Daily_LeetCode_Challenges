@@ -1,0 +1,30 @@
+#define dpp(x, y) memset((x), y, sizeof(x));
+#define sz(s) (int)s.size()
+#define all(x) x.begin(), x.end()
+class Solution {
+public:
+    int dp[505];
+    int kk;
+    int rec(int i, vector<int>& arr) {
+        int n = sz(arr);
+
+        if (i >= n)
+            return 0;
+        int& ret = dp[i];
+        if (~ret)
+            return ret;
+        ret = 0;
+        int mx = arr[i];
+
+        for (int j = i; j < i + kk && j < n; j++) {
+            mx = max(mx, arr[j]);
+            ret = max(ret, rec(j + 1, arr) + (j - i + 1) * mx);
+        }
+        return ret;
+    }
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        dpp(dp, -1);
+        kk = k;
+        return rec(0, arr);
+    }
+};
