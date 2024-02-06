@@ -1,0 +1,37 @@
+#define sz(s) (int)s.size()
+#define all(x) x.begin(), x.end()
+bool compare(string a, string b) {
+    sort(all(a));
+    sort(all(b));
+    if (a > b)
+        return 0;
+    return 1;
+}
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        sort(all(strs), compare);
+        vector<vector<string>> ans;
+        vector<string> v;
+        for (auto it : strs) {
+            if (sz(v) == 0)
+                v.push_back(it);
+            else {
+                string s = v.back();
+                string ss = it;
+                sort(all(s));
+                sort(all(ss));
+                if (s == ss)
+                    v.push_back(it);
+                else {
+                    ans.push_back(v);
+                    v.clear();
+                    v.push_back(it);
+                }
+            }
+        }
+        if (sz(v))
+            ans.push_back(v);
+        return ans;
+    }
+};
